@@ -14,9 +14,9 @@ class RumbleBundle::Bundle
     self.all.clear
   end
 
-  def initialize(data)
-    # accept data from Scraper
-
+  def initialize
+    @tiers = []
+    self.class.all << self
   end
 
 end
