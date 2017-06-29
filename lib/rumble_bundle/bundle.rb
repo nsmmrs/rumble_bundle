@@ -14,13 +14,23 @@ class RumbleBundle::Bundle
     self.all.clear
   end
 
-  def initialize(data)
-    @tiers = []
-    @products = []
-    @charities = []
+  def initialize(data_hash)
+    # @tiers = []
+    # @products = []
+    # @charities = []
 
-    data.each{|key, val| self.send("#{key}=", val)}
+    data_hash.each{|key, val| self.send("#{key}=", val)}
     self.class.all << self
+  end
+
+  def products=(array)
+    @products = array.tap do |products|
+      products.each do |product|
+        product.bundle = self.name
+      end
+
+    end
+
   end
 
 end

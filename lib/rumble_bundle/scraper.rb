@@ -10,52 +10,72 @@ class RumbleBundle::Scraper
       'https://www.humblebundle.com/mobile/']
   end
 
-  def bundlize(page)
+  def scrape_bundle(page)
     doc = Nokogiri::HTML(open(page))
 
-    # instantiate Bundle and Products
-    RumbleBundle::Bundle.new.tap do |bundle|
-      bundle.name = doc.css("title").text.chomp("(pay what you want and help charity)").strip
-      bundle.charities = doc.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
+    bundle = {
+      'name' => '',
+      'tiers' => [],
+      'products' => [],
+      'charities' => []
+    }
 
-      #for each tier in bundle
-      doc.css(".main-content-row")[0..-3].each do |tier|
+    bundle['name'] = doc.css("title").text.chomp("(pay what you want and help charity)").strip
 
-        #add tier to Bundle @tiers array
-        tier_name = tier.css(".dd-header-headline").text.strip
-        bundle.tiers << tier_name
+    bundle['charities'] = doc.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
-        #instantiate products from tier
-        tier.css(".game-boxes").each do |box|
-          scrape_product(box, bundle, tier_name)
+    #for each tier in bundle
+    doc.css(".main-content-row")[0..-3].each do |tier|
+
+      #add tier to Bundle @tiers array
+      tier_name = tier.css(".dd-header-headline").text.strip
+      bundle['tiers'] << tier_name
+
+      #instantiate products from tier
+      tier.css(".game-boxes").each do |box|
+        scrape_product(box, tier_name).tap do |product|
+          bundle['products'] << product
         end
-
       end
 
     end
+
+    RumbleBundle::Bundle.new(bundle)
 
   end
 
 
 
-  def scrape_product(box, bundle, tier_name)
+  def scrape_product(box, tier)
 
-    hash = {}
-    hash['name'] = box.css(".dd-image-box-caption").text.strip
-    hash['bundle'] = bundle.name
-    hash['tier'] = tier_name
+    product = {
+      'name' => '',
+      'subtitle' => '',
+      'bundle' => '',
+      'tier' => '',
+      'platforms' => [],
+      'drm' => nil,
+      'steam_key' => nil
+    }
+
+    product['name'] = box.css(".dd-image-box-caption").text.strip
+    product['tier'] = tier
 
     #scrape subtitle if it exists
     if box.at_css(".subtitle")
       box.css(".subtitle .callout-msrp").remove
       unless box.css(".subtitle").text.strip == ""
-        hash['subtitle'] = box.css(".subtitle").text.strip
+        product['subtitle'] = box.css(".subtitle").text.strip
       end
     end
 
-    RumbleBundle::Product.new(hash).tap do |product|
-      bundle.products << product
-    end
+    # :platforms
+
+    # :drm
+
+    # :steam_key
+
+    RumbleBundle::Product.new(product)
 
   end
 
