@@ -14,7 +14,8 @@ class RumbleBundle::Product
     self.all.clear
   end
 
-  def initialize
+  def initialize(data)
+    data.each{|key, val| self.send("#{key}=", val)}
     self.class.all << self
   end
 
