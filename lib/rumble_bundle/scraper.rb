@@ -15,20 +15,41 @@ class RumbleBundle::Scraper
 
     # instantiate Bundle and Products
     RumbleBundle::Bundle.new.tap do |bundle|
-      bundle.name = doc.css("title").text #minus "(pay what you want...)"
-      bundle.charities = doc.css(".ch-image-wrapper img").collect{|img| img.attr("alt")}
+      bundle.name = doc.css("title").text.chomp("(pay what you want and help charity)").strip
+      bundle.charities = doc.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
-      # #for each tier in bundle
-      # doc.css(".main-content-row").each do |tier|
+      #for each tier in bundle
+      doc.css(".main-content-row")[0..-3].each do |tier|
 
-      #   #add tier to Bundle @tiers array
-      #   bundle.tiers << tier.css(".dd-header-headline").text
+        #add tier to Bundle @tiers array
+        tier_name = tier.css(".dd-header-headline").text.strip
+        bundle.tiers << tier_name
 
-      #   #instantiate products from tier
-      #   RumbleBundle::Product.new.tap do |prod|
-      #   end
+        #instantiate products from tier
+        tier.css(".game-boxes").each do |box|
 
-      # end
+          RumbleBundle::Product.new.tap do |product|
+            product.name = box.css(".dd-image-box-caption").text.strip
+
+            if box.at_css(".subtitle")
+              box.css(".subtitle .callout-msrp").remove
+              unless box.css(".subtitle").text.strip == ""
+                product.subtitle = box.css(".subtitle").text.strip
+              end
+            end
+
+            product.bundle = bundle.name
+
+            product.tier = tier_name
+
+            bundle.products << product
+
+          end
+
+        end
+
+
+      end
 
     end
 
