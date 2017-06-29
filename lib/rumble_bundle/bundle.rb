@@ -16,6 +16,8 @@ class RumbleBundle::Bundle
 
   def initialize
     @tiers = []
+    @products = []
+    @charities = []
     self.class.all << self
   end
 
