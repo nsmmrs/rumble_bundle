@@ -2,7 +2,7 @@
 
 class RumbleBundle::Bundle
 
-  attr_accessor :name, :tiers, :products, :supported_charities
+  attr_accessor :name, :tiers, :products, :charities
 
   @@all = []
 
