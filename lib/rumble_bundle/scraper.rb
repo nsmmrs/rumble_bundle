@@ -60,12 +60,12 @@ class RumbleBundle::Scraper
 
     product['name'] = box.css(".dd-image-box-caption").text.strip
     product['tier'] = tier
-
-    #scrape subtitle if it exists
-    if box.at_css(".subtitle")
+    product['subtitle'] = if box.at_css(".subtitle")
       box.css(".subtitle .callout-msrp").remove
-      unless box.css(".subtitle").text.strip == ""
-        product['subtitle'] = box.css(".subtitle").text.strip
+      if box.css(".subtitle").text.strip != ""
+        box.css(".subtitle").text.strip
+      else
+        nil
       end
     end
 
