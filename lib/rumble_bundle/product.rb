@@ -4,8 +4,10 @@ class RumbleBundle::Product
 
   attr_accessor :name, :subtitle, :bundle, :tier, :platforms, :drm, :steam_key
 
-  def initialize(data)
-    #accept data from Scraper
+  @@all = []
+
+  def initialize
+    self.class.all << self
   end
 
 end
