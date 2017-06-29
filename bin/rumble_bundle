@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "rumble_bundle"
+require "./config/environment"
 
 RumbleBundle::CLI.start
 
