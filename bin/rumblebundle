@@ -1,0 +1,160 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "rumble_bundle"
+
+RumbleBundle::CLI.start
+
+# Welcome to RumbleBundle! The following Bundles are currently on.
+
+# Enter a bundle's number to learn more, or enter 'help' for more commands.
+# Enter 'quit' to leave the program.
+
+# [1] Humble Software Bundle
+# [2] Humble Audiobook Bundle: Hackers, Gamers & Geeks presented by Novel Audio
+# [3] Humble Manga Bundle: Fairy Tail presented by Kodansha
+# [4] Humble Mobile Bundle: Roguelikes
+
+# 1_
+
+
+# ---------------------------------------------------------------
+# Humble Software Bundle (https://www.humblebundle.com/software-bundle)
+# $534 worth of awesome stuff - Only 6 Days & 4 Hours remaining!
+
+# Supports
+  # The Wikimedia Foundation
+  # Freedom of the Press Foundation
+  # or a Charity of Your Choice
+
+
+# Pay $1+ to unlock...
+
+  # CloudApp Pro (Windows, Mac)
+    # 6-Month License
+
+  # Soda PDF Home (Windows)
+    # Version 9 Home License
+
+  # MAGIX Music Maker $30 In-App Voucher (Windows)
+
+
+# Beat the Average of $8.99 to also unlock...
+
+  # Corel Photo Brush - AfterShot (Windows, Mac)
+
+  # Corel Photo Brush - ParticleShop (Windows, Mac)
+
+  # LastPass Premium (Windows, Mac, Linux)
+    # 1-Year License
+
+
+# Pay $12+ to also unlock...
+
+  # Panda AntiVirus Pro (Windows, Android)
+    # 1-Year License, 3 Devices
+
+  # Windscribe VPN (Windows, Mac)
+    # 1-Year License
+
+  # SOUND FORGE Audio Studio 10 (Windows)
+
+
+# Bonuses...
+
+  # Pay $1 or more!
+  #   10% off Humble Monthly for New Subscribers
+
+
+# ---------------------------------------------------------------
+
+# Enter a bundle's number to learn more, or enter 'help' for more commands.
+# Enter 'quit' to leave the program.
+
+# [1] Humble Software Bundle
+# [2] Humble Audiobook Bundle: Hackers, Gamers & Geeks presented by Novel Audio
+# [3] Humble Manga Bundle: Fairy Tail presented by Kodansha
+# [4] Humble Mobile Bundle: Roguelikes
+
+# help_
+
+
+# ---------------------------------------------------------------
+# You can enter a filter to list all products matching that filter.
+# You can combine multiple filters in a space-separated list.
+  # e.g. 'drm-free linux'
+
+# drm-free
+# steam-key
+# windows
+# mac
+# linux
+# android
+
+# Press any key to continue..._
+# ---------------------------------------------------------------
+
+# Enter a bundle's number to learn more, or enter 'help' for more commands.
+# Enter 'quit' to leave the program.
+
+# [1] Humble Software Bundle
+# [2] Humble Audiobook Bundle: Hackers, Gamers & Geeks presented by Novel Audio
+# [3] Humble Manga Bundle: Fairy Tail presented by Kodansha
+# [4] Humble Mobile Bundle: Roguelikes
+
+# android_
+
+
+# ---------------------------------------------------------------
+# The following products match your filter:
+
+# [1] Humble Software Bundle
+
+  # Pay $12 or more to also unlock!
+
+    # Panda AntiVirus Pro (Windows, Android)
+      # 1-Year License, 3 Devices
+
+
+# [4] Humble Mobile Bundle: Roguelikes
+
+  # Pay $1 or more!
+
+    # Desktop Dungeons (Android)
+
+    # bit Dungeon I (Android)
+
+    # bit Dungeon II (Android)
+
+
+  # Pay $5 or more to also unlock!
+
+    # Pixel Heroes: Byte & Magic (Android)
+
+    # Road Not Taken (Android)
+
+    # Dungelot: Shattered Lands (Android)
+
+    
+  # Pay more than the average of $5.25 to also unlock!
+
+    # Heroes of Loot 2 (Android)
+
+    # Sproggiwood (Android)
+
+    # Star Chindy: SciFi Roguelike (Android)
+
+
+# ---------------------------------------------------------------
+
+# Enter a bundle's number to learn more, or enter 'help' for more commands.
+# Enter 'quit' to leave the program.
+
+# [1] Humble Software Bundle
+# [2] Humble Audiobook Bundle: Hackers, Gamers & Geeks presented by Novel Audio
+# [3] Humble Manga Bundle: Fairy Tail presented by Kodansha
+# [4] Humble Mobile Bundle: Roguelikes
+
+# _
+
+
