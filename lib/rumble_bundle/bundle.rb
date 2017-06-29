@@ -14,10 +14,12 @@ class RumbleBundle::Bundle
     self.all.clear
   end
 
-  def initialize
+  def initialize(data)
     @tiers = []
     @products = []
     @charities = []
+
+    data.each{|key, val| self.send("#{key}=", val)}
     self.class.all << self
   end
 
