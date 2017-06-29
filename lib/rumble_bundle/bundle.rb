@@ -24,11 +24,12 @@ class RumbleBundle::Bundle
   end
 
   def products=(array)
+
+    #associate incoming products with Bundle
     @products = array.tap do |products|
       products.each do |product|
         product.bundle = self.name
       end
-
     end
 
   end
