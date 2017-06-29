@@ -27,30 +27,34 @@ class RumbleBundle::Scraper
 
         #instantiate products from tier
         tier.css(".game-boxes").each do |box|
-
-          RumbleBundle::Product.new.tap do |product|
-            product.name = box.css(".dd-image-box-caption").text.strip
-
-            if box.at_css(".subtitle")
-              box.css(".subtitle .callout-msrp").remove
-              unless box.css(".subtitle").text.strip == ""
-                product.subtitle = box.css(".subtitle").text.strip
-              end
-            end
-
-            product.bundle = bundle.name
-
-            product.tier = tier_name
-
-            bundle.products << product
-
-          end
-
+          scrape_product(box, bundle, tier_name)
         end
-
 
       end
 
+    end
+
+  end
+
+
+
+  def scrape_product(box, bundle, tier_name)
+
+    hash = {}
+    hash['name'] = box.css(".dd-image-box-caption").text.strip
+    hash['bundle'] = bundle.name
+    hash['tier'] = tier_name
+
+    #scrape subtitle if it exists
+    if box.at_css(".subtitle")
+      box.css(".subtitle .callout-msrp").remove
+      unless box.css(".subtitle").text.strip == ""
+        hash['subtitle'] = box.css(".subtitle").text.strip
+      end
+    end
+
+    RumbleBundle::Product.new(hash).tap do |product|
+      bundle.products << product
     end
 
   end
