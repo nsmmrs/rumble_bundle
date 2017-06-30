@@ -31,7 +31,7 @@ class RumbleBundle::CLI
     puts ""
 
     if input.to_i.between?(1, bundles.length)
-      display(bundles[input.to_i - 1])
+      display_bundle(bundles[input.to_i - 1])
     else
       case input
       when 'help'
@@ -62,6 +62,10 @@ class RumbleBundle::CLI
         end
       end
 
+      # bundles = filtered.collect{|p| p.bundle }.uniq
+
+
+
       filtered.each{|p| puts p.name}
 
     end
@@ -70,7 +74,7 @@ class RumbleBundle::CLI
 
   end
 
-  def self.display(bundle)
+  def self.display_bundle(bundle)
     puts "---------------------------------------------------------------"
     puts "#{bundle.name} (#{bundle.url})"
     puts "#{bundle.total_msrp}!"
@@ -84,15 +88,9 @@ class RumbleBundle::CLI
     puts "", ""
     bundle.tiers.each do |tier|
       puts tier, ""
-      bundle.products.each do |prod|
-        if prod.tier == tier
-          print "  #{prod.name}"
-          print " (#{prod.platforms.join(", ")})" if prod.platforms.any?
-          print " (DRM-Free!)" if prod.drm_free
-          print " (w/Steam Key!)" if prod.steam_key
-          puts ""
-          puts "    #{prod.subtitle}" if prod.subtitle
-          puts ""
+      bundle.products.each do |product|
+        if product.tier == tier
+          display_product(product)
         end
       end
       puts ""
@@ -100,6 +98,16 @@ class RumbleBundle::CLI
     puts "---------------------------------------------------------------"
 
     query
+  end
+
+  def self.display_product(product)
+    print "  #{product.name}"
+    print " (#{product.platforms.join(", ")})" if product.platforms.any?
+    print " (DRM-Free!)" if product.drm_free
+    print " (w/Steam Key!)" if product.steam_key
+    puts ""
+    puts "    #{product.subtitle}" if product.subtitle
+    puts ""
   end
 
   def self.help
