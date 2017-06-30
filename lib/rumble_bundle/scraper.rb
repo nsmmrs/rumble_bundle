@@ -19,7 +19,8 @@ class RumbleBundle::Scraper
       'name' => '',
       'tiers' => [],
       'products' => [],
-      'charities' => []
+      'charities' => [],
+      'total_msrp' => ''
     }
 
     bundle['name'] = doc.css("title").text.chomp("(pay what you want and help charity)").strip
@@ -41,6 +42,8 @@ class RumbleBundle::Scraper
       end
 
     end
+
+    bundle['total_msrp'] = doc.css('.hr-tagline-text').detect{|e| /worth/}.text.strip
 
     RumbleBundle::Bundle.new(bundle)
 
