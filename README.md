@@ -27,6 +27,7 @@ Or install it yourself as:
 ## Usage
 
 Install via `$ gem install rumble_bundle`
+
 Run via     `$ rumble_bundle`
 
 Then follow the on-screen prompt. :)
