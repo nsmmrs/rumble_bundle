@@ -10,30 +10,14 @@ Available products can also be filtered by tags like `linux`, or `drm-free`, or 
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'rumble_bundle'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install rumble_bundle
-
-## Usage
-
 Install via:
-
 ```
 $ gem install rumble_bundle
 ```
 
-Run via:
+## Usage
 
+Run via:
 ```
 $ rumble_bundle
 ```
