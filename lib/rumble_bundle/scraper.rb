@@ -10,6 +10,8 @@ class RumbleBundle::Scraper
       'https://www.humblebundle.com/mobile/']
   end
 
+
+
   def scrape_bundle(page)
     doc = Nokogiri::HTML(open(page))
 
@@ -54,7 +56,7 @@ class RumbleBundle::Scraper
       'bundle' => '',
       'tier' => '',
       'platforms' => [],
-      'drm' => nil,
+      'drm_free' => nil,
       'steam_key' => nil
     }
 
@@ -69,11 +71,30 @@ class RumbleBundle::Scraper
       end
     end
 
-    # :platforms
+    product['platforms'] = Array.new.tap do |platforms|
+      if box.at_css(".dd-availability-icon > i.hb-android")
+        platforms << 'Android'
+      end
 
-    # :drm
+      if box.at_css(".dd-availability-icon > i.hb-linux")
+        platforms << 'Linux'
+      end
 
-    # :steam_key
+      if box.at_css(".dd-availability-icon > i.hb-windows")
+        platforms << 'Windows'
+      end
+
+      if box.at_css(".dd-availability-icon > i.hb-osx")
+        platforms << 'Mac'
+      end
+
+    end
+
+    product['drm_free'] = box.at_css(".dd-availability-icon > i.hb-drmfree") ?
+      true : false
+
+    product['steam_key'] = box.at_css(".dd-availability-icon > i.hb-steam") ?
+      true : false
 
     RumbleBundle::Product.new(product)
 

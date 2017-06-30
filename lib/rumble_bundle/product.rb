@@ -2,7 +2,7 @@
 
 class RumbleBundle::Product
 
-  attr_accessor :name, :subtitle, :bundle, :tier, :platforms, :drm, :steam_key
+  attr_accessor :name, :subtitle, :bundle, :tier, :platforms, :drm_free, :steam_key
 
   @@all = []
 
