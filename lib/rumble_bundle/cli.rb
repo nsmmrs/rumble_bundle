@@ -1,6 +1,6 @@
 class RumbleBundle::CLI
 
-  def self.start
+  def start
     puts ""
     puts "Fetching data from HumbleBundle.com..."
     puts ""
@@ -12,7 +12,7 @@ class RumbleBundle::CLI
   end
 
 
-  def self.query
+  def query
 
     bundles = RumbleBundle::Bundle.all
 
@@ -50,7 +50,7 @@ class RumbleBundle::CLI
 
   end
 
-  def self.filter(input)
+  def filter(input)
     filters = %w[drm-free steam-key windows mac linux android]
     valid = filters & input.split
     if valid.any?
@@ -95,7 +95,7 @@ class RumbleBundle::CLI
 
   end
 
-  def self.display_bundle(bundle)
+  def display_bundle(bundle)
     puts "---------------------------------------------------------------"
     puts "#{bundle.name} (#{bundle.url})"
     puts "#{bundle.total_msrp}!"
@@ -121,7 +121,7 @@ class RumbleBundle::CLI
     query
   end
 
-  def self.display_product(product)
+  def display_product(product)
     print "  #{product.name}"
     print " (#{product.platforms.join(", ")})" if product.platforms.any?
     print " (DRM-Free!)" if product.drm_free
@@ -131,7 +131,7 @@ class RumbleBundle::CLI
     puts ""
   end
 
-  def self.help
+  def help
     puts <<~HEREDOC
     ---------------------------------------------------------------
     You can enter a filter to list all products matching that filter.
@@ -153,7 +153,7 @@ class RumbleBundle::CLI
     query
   end
 
-  def self.quit
+  def quit
     exit
   end
 
