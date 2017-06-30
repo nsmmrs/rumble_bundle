@@ -32,6 +32,11 @@ class RumbleBundle::CLI
 
     if input.to_i.between?(1, bundles.length)
       display_bundle(bundles[input.to_i - 1])
+    elsif input.to_i < 0 || input.to_i > bundles.length
+      puts ""
+      puts "Sorry! Please enter a valid number or command."
+      query
+
     else
       case input
       when 'help'
@@ -63,12 +68,10 @@ class RumbleBundle::CLI
       end
 
       if filtered.any?
-        bundles = filtered.collect{|p| p.bundle }.uniq
-
         puts ""
         puts "Results for: #{valid}"
         puts "---------------------------------------------------------------"
-        bundles.each do |bundle|
+        filtered.collect{|p| p.bundle }.uniq.each do |bundle|
           puts "#{bundle.name} (#{bundle.url})"
           puts ""
           filtered.each{|p| display_product(p) if p.bundle == bundle}
@@ -76,11 +79,16 @@ class RumbleBundle::CLI
         end
         puts "---------------------------------------------------------------"
       else
+        puts ""
         puts "Sorry! No results for: #{valid}"
         puts "---------------------------------------------------------------"
         puts "---------------------------------------------------------------"
       end
 
+    else
+      puts ""
+      puts "Sorry! Please enter a valid number or command."
+      query
 
     end
 
