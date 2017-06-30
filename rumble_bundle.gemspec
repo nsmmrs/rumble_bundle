@@ -10,6 +10,15 @@ Gem::Specification.new do |spec|
   spec.email         = ["connect@repromancer.me"]
 
   spec.summary       = %q{Simple command line reader for the Humble Bundle website.}
+
+  spec.description   = %q{This is a rudimentary info scraper and command line "browser" for the Humble Bundle website, using plain Ruby and Nokogiri.
+
+  Upon firing up, it will scrape the Game Bundles, Book Bundles, and Mobiles Bundles tabs (along with any sub-tabs) for ongoing bundles. Once it's finished, you can query the scraped information via the command prompt.
+
+  Available information for each bundle includes: Name, Supported Charities, Donation Tiers and Included Products, Total MSRP, and URL.
+
+  Available products can also be filtered by tags like linux, or drm-free, or multiple at once (windows linux drm-free).}
+
   spec.homepage      = "https://github.com/repromancer/rumble_bundle"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
