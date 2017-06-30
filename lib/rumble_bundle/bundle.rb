@@ -8,14 +8,12 @@ class RumbleBundle::Bundle
     @@all
   end
 
-  def self.clear_all
-    self.all.clear
-  end
-
   def initialize(data_hash)
     data_hash.each{|key, val| self.send("#{key}=", val)}
     self.class.all << self
   end
+
+
 
   def products=(array)
 
