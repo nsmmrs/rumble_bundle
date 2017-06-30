@@ -1,6 +1,4 @@
 class RumbleBundle::CLI
-  # def initialize
-  # end
 
   def self.start
     puts ""
@@ -110,7 +108,7 @@ class RumbleBundle::CLI
   end
 
   def self.quit
-    puts "I'm quitting!"
+    exit
   end
 
   def self.filter(arguments)
