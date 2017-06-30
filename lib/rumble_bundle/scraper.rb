@@ -11,6 +11,7 @@ class RumbleBundle::Scraper
 
 
   def crawl_site
+
     @main_pages.each do |page|
       first_page = Nokogiri::HTML(open(page))
       scrape_bundle(first_page, page)
@@ -45,10 +46,14 @@ class RumbleBundle::Scraper
     bundle['charities'] = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
     #for each tier in bundle
-    html.css(".main-content-row")[0..-3].each do |tier|
+    html.css(".main-content-row").each do |tier|
 
       #add tier to Bundle @tiers array
       tier_name = tier.css(".dd-header-headline").text.strip
+      if tier_name.downcase.include?("charity")
+        break
+      end
+
       bundle['tiers'] << tier_name
 
       #instantiate products from tier
