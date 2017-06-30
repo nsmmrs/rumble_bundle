@@ -28,7 +28,7 @@ class RumbleBundle::Bundle
     #associate incoming products with Bundle
     @products = array.tap do |products|
       products.each do |product|
-        product.bundle = self.name
+        product.bundle = self
       end
     end
 
