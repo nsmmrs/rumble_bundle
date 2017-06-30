@@ -62,11 +62,25 @@ class RumbleBundle::CLI
         end
       end
 
-      # bundles = filtered.collect{|p| p.bundle }.uniq
+      if filtered.any?
+        bundles = filtered.collect{|p| p.bundle }.uniq
 
+        puts ""
+        puts "Results for: #{valid}"
+        puts "---------------------------------------------------------------"
+        bundles.each do |bundle|
+          puts "#{bundle.name} (#{bundle.url})"
+          puts ""
+          filtered.each{|p| display_product(p) if p.bundle == bundle}
+          puts ""
+        end
+        puts "---------------------------------------------------------------"
+      else
+        puts "Sorry! No results for: #{valid}"
+        puts "---------------------------------------------------------------"
+        puts "---------------------------------------------------------------"
+      end
 
-
-      filtered.each{|p| puts p.name}
 
     end
 
