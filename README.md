@@ -27,10 +27,16 @@ Or install it yourself as:
 ## Usage
 
 Install via:
-```$ gem install rumble_bundle```
+
+```
+$ gem install rumble_bundle
+```
 
 Run via:
-```$ rumble_bundle```
+
+```
+$ rumble_bundle
+```
 
 Then follow the on-screen prompts. :)
 
