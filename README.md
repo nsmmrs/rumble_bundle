@@ -1,8 +1,8 @@
 # RumbleBundle
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rumble_bundle`. To experiment with that code, run `bin/console` for an interactive prompt.
+This is a rudimentary info scraper and command line "browser" for the Humble Bundle website, using plain Ruby and Nokogiri.
 
-TODO: Delete this and the text above, and describe your gem
+Upon firing up, it will scrape the Game Bundles, Book Bundles, and Mobiles Bundles tabs (along with any sub-tabs) for ongoing bundles. Once it's finished, you can query the scraped information via the command prompt.
 
 ## Installation
 
@@ -22,7 +22,10 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Install via `$ gem install rumble_bundle`
+Run via     `$ rumble_bundle`
+
+Then follow the on-screen prompt. :)
 
 ## Development
 
