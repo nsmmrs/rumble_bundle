@@ -10,7 +10,6 @@ Gem::Specification.new do |spec|
   spec.email         = ["connect@repromancer.me"]
 
   spec.summary       = %q{Simple command line reader for the Humble Bundle website.}
-  # spec.description   = %q{TODO: Write a longer description or delete this line.}
   spec.homepage      = "https://github.com/repromancer/rumble_bundle"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -25,13 +24,13 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = "bin"
+  spec.executables  << 'rumble_bundle'
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.15"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "pry"
 
-  spec.add_dependency "nokogiri"
+  spec.add_dependency "nokogiri", "~> 1.7"
 end
