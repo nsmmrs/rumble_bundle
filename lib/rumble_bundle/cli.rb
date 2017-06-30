@@ -1,16 +1,11 @@
 class RumbleBundle::CLI
 
-  def self.bundles
-    @@bundles ||= RumbleBundle::Bundle.all
-  end
-
   def self.start
     puts ""
     puts "Fetching data from HumbleBundle.com..."
     puts ""
 
     RumbleBundle::Scraper.new.crawl_site
-    bundles
 
     query
 
@@ -18,6 +13,9 @@ class RumbleBundle::CLI
 
 
   def self.query
+
+    bundles = RumbleBundle::Bundle.all
+
     puts ""
     puts "Enter a bundle's number to learn more, or enter 'help' for more commands."
     puts "Enter 'quit' to leave the program."
