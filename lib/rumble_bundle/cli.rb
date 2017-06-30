@@ -58,7 +58,6 @@ class RumbleBundle::CLI
       valid.each do |filter|
         case filter
         when 'windows','mac','linux','android'
-          # binding.pry
           filtered.delete_if{|p| ! p.platforms.include?(filter.capitalize)}
         when 'drm-free'
           filtered.delete_if{|p| ! p.drm_free}

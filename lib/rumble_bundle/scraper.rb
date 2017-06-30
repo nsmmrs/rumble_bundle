@@ -56,7 +56,7 @@ class RumbleBundle::Scraper
 
       bundle['tiers'] << tier_name
 
-      #instantiate products from tier
+      #and instantiate products from tier
       tier.css(".game-boxes").each do |box|
         scrape_product(box, tier_name).tap do |product|
           bundle['products'] << product

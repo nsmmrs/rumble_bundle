@@ -13,10 +13,6 @@ class RumbleBundle::Bundle
   end
 
   def initialize(data_hash)
-    # @tiers = []
-    # @products = []
-    # @charities = []
-
     data_hash.each{|key, val| self.send("#{key}=", val)}
     self.class.all << self
   end
