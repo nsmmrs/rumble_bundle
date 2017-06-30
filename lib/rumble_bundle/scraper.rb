@@ -1,5 +1,3 @@
-# The Scraper class will be responsible for finding the URLs to all available bundles, and parsing them into Bundle instances with Products.
-
 class RumbleBundle::Scraper
 
   def initialize
@@ -12,8 +10,26 @@ class RumbleBundle::Scraper
 
 
 
+  def crawl_site
+    @main_pages.each do |page|
+      first_page = Nokogiri::HTML(open(page))
+      scrape_bundle(first_page)
+
+      if first_page.at_css(".js-highlight.subtab-button")
+        tab_bar = first_page.css(".js-highlight.subtab-button")
+        links = tab_bar.collect{|a| @base_url + a.attr("href") }
+
+        links.each do |link|
+          scrape_bundle(Nokogiri::HTML(open(link)))
+        end
+      end
+    end
+
+  end
+
+
+
   def scrape_bundle(page)
-    doc = Nokogiri::HTML(open(page))
 
     bundle = {
       'name' => '',
@@ -23,12 +39,12 @@ class RumbleBundle::Scraper
       'total_msrp' => ''
     }
 
-    bundle['name'] = doc.css("title").text.chomp("(pay what you want and help charity)").strip
+    bundle['name'] = page.css("title").text.chomp("(pay what you want and help charity)").strip
 
-    bundle['charities'] = doc.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
+    bundle['charities'] = page.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
     #for each tier in bundle
-    doc.css(".main-content-row")[0..-3].each do |tier|
+    page.css(".main-content-row")[0..-3].each do |tier|
 
       #add tier to Bundle @tiers array
       tier_name = tier.css(".dd-header-headline").text.strip
@@ -43,7 +59,7 @@ class RumbleBundle::Scraper
 
     end
 
-    bundle['total_msrp'] = doc.css('.hr-tagline-text').detect{|e| /worth/}.text.strip
+    bundle['total_msrp'] = page.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
 
     RumbleBundle::Bundle.new(bundle)
 

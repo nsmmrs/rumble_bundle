@@ -1,5 +1,3 @@
-# Bundle instances will be responsible for knowing about a bundle and its included Products.
-
 class RumbleBundle::Bundle
 
   attr_accessor :name, :tiers, :products, :charities, :total_msrp
