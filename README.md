@@ -1,6 +1,6 @@
 # RumbleBundle
 
-This is a rudimentary info scraper and command line "browser" for the Humble Bundle website, using plain Ruby and Nokogiri.
+This is a rudimentary info scraper and command line "browser" for the [Humble Bundle](https://www.humblebundle.com/) website, using plain Ruby and Nokogiri.
 
 Upon firing up, it will scrape the Game Bundles, Book Bundles, and Mobiles Bundles tabs (along with any sub-tabs) for ongoing bundles. Once it's finished, you can query the scraped information via the command prompt.
 
