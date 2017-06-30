@@ -1,5 +1,9 @@
 class RumbleBundle::CLI
 
+  def self.bundles
+    @@bundles ||= RumbleBundle::Bundle.all
+  end
+
   def self.start
     puts ""
     puts "Fetching data from HumbleBundle.com..."
@@ -12,9 +16,6 @@ class RumbleBundle::CLI
 
   end
 
-  def self.bundles
-    @@bundles ||= RumbleBundle::Bundle.all
-  end
 
   def self.query
     puts ""
@@ -28,7 +29,7 @@ class RumbleBundle::CLI
 
     puts ""
     print " "
-    input = gets.strip
+    input = gets.strip.downcase
     puts ""
 
     if input.to_i.between?(1, bundles.length)
@@ -39,17 +40,35 @@ class RumbleBundle::CLI
         help
       when 'quit'
         quit
-      # when 'drm-free'
-      # when 'steam-key'
-      # when 'windows'
-      # when 'mac'
-      # when 'linux'
-      # when 'android'
+      else
+        filter(input)
+      end
+    end
+
+  end
+
+  def self.filter(input)
+    filters = %w[drm-free steam-key windows mac linux android]
+    valid = filters & input.split
+    if valid.any?
+      filtered = RumbleBundle::Product.all.collect{|p| p}
+      valid.each do |filter|
+        case filter
+        when 'windows','mac','linux','android'
+          # binding.pry
+          filtered.delete_if{|p| ! p.platforms.include?(filter.capitalize)}
+        when 'drm-free'
+          filtered.delete_if{|p| ! p.drm_free}
+        when 'steam-key'
+          filtered.delete_if{|p| ! p.steam_key}
+        end
       end
 
+      filtered.each{|p| puts p.name}
 
     end
 
+    query
 
   end
 
@@ -109,9 +128,6 @@ class RumbleBundle::CLI
 
   def self.quit
     exit
-  end
-
-  def self.filter(arguments)
   end
 
 end
