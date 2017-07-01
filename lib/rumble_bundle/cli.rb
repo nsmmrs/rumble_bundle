@@ -73,8 +73,13 @@ class RumbleBundle::CLI
         filtered.collect{|p| p.bundle }.uniq.each do |bundle|
           puts "#{bundle.name} (#{bundle.url})"
           puts ""
-          filtered.each{|p| display_product(p) if p.bundle == bundle}
-          puts ""
+          bundle.tiers.each do |tier|
+            if filtered.detect{|p| p.tier == tier}
+              puts tier.description, ""
+              filtered.each{|p| display_product(p) if p.tier == tier}
+              puts ""
+            end
+          end
         end
         puts "---------------------------------------------------------------"
       else
