@@ -33,17 +33,17 @@ class RumbleBundle::Scraper
   def scrape_bundle(html, url)
 
     bundle = {
-      'name' => '',
-      'tiers' => [],
-      'products' => [],
-      'charities' => [],
-      'total_msrp' => '',
-      'url' => url
+      :name => '',
+      :tiers => [],
+      :products => [],
+      :charities => [],
+      :total_msrp => '',
+      :url => url
     }
 
-    bundle['name'] = html.css("title").text.chomp("(pay what you want and help charity)").strip
+    bundle[:name] = html.css("title").text.chomp("(pay what you want and help charity)").strip
 
-    bundle['charities'] = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
+    bundle[:charities] = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
     #for each tier in bundle
     html.css(".main-content-row").each do |tier|
@@ -54,18 +54,18 @@ class RumbleBundle::Scraper
         break
       end
 
-      bundle['tiers'] << tier_name
+      bundle[:tiers] << tier_name
 
       #and instantiate products from tier
       tier.css(".game-boxes").each do |box|
         scrape_product(box, tier_name).tap do |product|
-          bundle['products'] << product
+          bundle[:products] << product
         end
       end
 
     end
 
-    bundle['total_msrp'] = html.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
+    bundle[:total_msrp] = html.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
 
     RumbleBundle::Bundle.new(bundle)
 
@@ -76,18 +76,18 @@ class RumbleBundle::Scraper
   def scrape_product(box, tier)
 
     product = {
-      'name' => '',
-      'subtitle' => '',
-      'bundle' => '',
-      'tier' => '',
-      'platforms' => [],
-      'drm_free' => nil,
-      'steam_key' => nil
+      :name => '',
+      :subtitle => '',
+      :bundle => nil,
+      :tier => '',
+      :platforms => [],
+      :drm_free => nil,
+      :steam_key => nil
     }
 
-    product['name'] = box.css(".dd-image-box-caption").text.strip
-    product['tier'] = tier
-    product['subtitle'] = if box.at_css(".subtitle")
+    product[:name] = box.css(".dd-image-box-caption").text.strip
+    product[:tier] = tier
+    product[:subtitle] = if box.at_css(".subtitle")
       box.css(".subtitle .callout-msrp").remove
       if box.css(".subtitle").text.strip != ""
         box.css(".subtitle").text.strip
@@ -96,7 +96,7 @@ class RumbleBundle::Scraper
       end
     end
 
-    product['platforms'] = Array.new.tap do |platforms|
+    product[:platforms] = Array.new.tap do |platforms|
       if box.at_css(".dd-availability-icon > i.hb-android")
         platforms << 'Android'
       end
@@ -115,10 +115,10 @@ class RumbleBundle::Scraper
 
     end
 
-    product['drm_free'] = box.at_css(".dd-availability-icon > i.hb-drmfree") ?
+    product[:drm_free] = box.at_css(".dd-availability-icon > i.hb-drmfree") ?
       true : false
 
-    product['steam_key'] = box.at_css(".dd-availability-icon > i.hb-steam") ?
+    product[:steam_key] = box.at_css(".dd-availability-icon > i.hb-steam") ?
       true : false
 
     RumbleBundle::Product.new(product)
