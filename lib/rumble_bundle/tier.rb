@@ -1,0 +1,2 @@
+class RumbleBundle::Tier
+end
