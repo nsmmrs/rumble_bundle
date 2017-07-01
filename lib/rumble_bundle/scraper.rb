@@ -37,6 +37,8 @@ class RumbleBundle::Scraper
       # Scrape Bundle metadata
       bundle.name = html.css("title").text.chomp("(pay what you want and help charity)").strip
 
+      bundle.url = url
+
       bundle.charities = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
       bundle.total_msrp = html.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
