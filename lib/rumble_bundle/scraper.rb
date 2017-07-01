@@ -32,96 +32,98 @@ class RumbleBundle::Scraper
 
   def scrape_bundle(html, url)
 
-    bundle = {
-      :name => '',
-      :tiers => [],
-      :products => [],
-      :charities => [],
-      :total_msrp => '',
-      :url => url
-    }
+    RumbleBundle::Bundle.new.tap do |bundle|
 
-    bundle[:name] = html.css("title").text.chomp("(pay what you want and help charity)").strip
+      # Scrape Bundle metadata
+      bundle.name = html.css("title").text.chomp("(pay what you want and help charity)").strip
 
-    bundle[:charities] = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
+      bundle.charities = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
 
-    #for each tier in bundle
-    html.css(".main-content-row").each do |tier|
+      bundle.total_msrp = html.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
 
-      #add tier to Bundle @tiers array
-      tier_name = tier.css(".dd-header-headline").text.strip
-      if tier_name.downcase.include?("charity")
-        break
-      end
 
-      bundle[:tiers] << tier_name
 
-      #and instantiate products from tier
-      tier.css(".game-boxes").each do |box|
-        scrape_product(box, tier_name).tap do |product|
-          bundle[:products] << product
+      bundle.tiers = Array.new.tap do |bundle_tiers|
+
+        # Scrape Bundle page for Tiers
+        html.css(".main-content-row").each do |row|
+
+          # Stop iterating if scraper has reached a row which is not a Bundle Tier (row title will include "charity")
+          row_title = row.css(".dd-header-headline").text.strip
+          if row_title.downcase.include?("charity")
+            break
+          end
+
+          # For each row, instantiate a Tier and add to the Bundle's @tiers array
+          bundle_tiers << RumbleBundle::Tier.new.tap do |tier|
+            tier.description = row_title
+            # Associate Tier with Bundle
+            tier.bundle = bundle
+
+            # For each Tier, create an @products array, then instantiate Products and add them to the array
+            tier.products = Array.new.tap do |tier_products|
+
+              row.css(".game-boxes").each do |box|
+
+                scrape_product(box, bundle, tier).tap do |product|
+                  tier_products << product
+                end
+              end
+            end
+
+          end
         end
       end
 
     end
-
-    bundle[:total_msrp] = html.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
-
-    RumbleBundle::Bundle.new(bundle)
-
   end
 
 
 
-  def scrape_product(box, tier)
+  def scrape_product(box, bundle, tier)
 
-    product = {
-      :name => '',
-      :subtitle => '',
-      :bundle => nil,
-      :tier => '',
-      :platforms => [],
-      :drm_free => nil,
-      :steam_key => nil
-    }
+    RumbleBundle::Product.new.tap do |product|
 
-    product[:name] = box.css(".dd-image-box-caption").text.strip
-    product[:tier] = tier
-    product[:subtitle] = if box.at_css(".subtitle")
-      box.css(".subtitle .callout-msrp").remove
-      if box.css(".subtitle").text.strip != ""
-        box.css(".subtitle").text.strip
-      else
-        nil
+      product.bundle = bundle
+      product.tier = tier
+
+      product.name = box.css(".dd-image-box-caption").text.strip
+
+      product.subtitle = if box.at_css(".subtitle")
+        box.css(".subtitle .callout-msrp").remove
+        if box.css(".subtitle").text.strip != ""
+          box.css(".subtitle").text.strip
+        else
+          nil
+        end
       end
+
+      product.platforms = Array.new.tap do |platforms|
+        if box.at_css(".dd-availability-icon > i.hb-android")
+          platforms << 'Android'
+        end
+
+        if box.at_css(".dd-availability-icon > i.hb-linux")
+          platforms << 'Linux'
+        end
+
+        if box.at_css(".dd-availability-icon > i.hb-windows")
+          platforms << 'Windows'
+        end
+
+        if box.at_css(".dd-availability-icon > i.hb-osx")
+          platforms << 'Mac'
+        end
+
+      end
+
+      product.drm_free = box.at_css(".dd-availability-icon > i.hb-drmfree") ?
+        true : false
+
+      product.steam_key = box.at_css(".dd-availability-icon > i.hb-steam") ?
+        true : false
+
     end
-
-    product[:platforms] = Array.new.tap do |platforms|
-      if box.at_css(".dd-availability-icon > i.hb-android")
-        platforms << 'Android'
-      end
-
-      if box.at_css(".dd-availability-icon > i.hb-linux")
-        platforms << 'Linux'
-      end
-
-      if box.at_css(".dd-availability-icon > i.hb-windows")
-        platforms << 'Windows'
-      end
-
-      if box.at_css(".dd-availability-icon > i.hb-osx")
-        platforms << 'Mac'
-      end
-
-    end
-
-    product[:drm_free] = box.at_css(".dd-availability-icon > i.hb-drmfree") ?
-      true : false
-
-    product[:steam_key] = box.at_css(".dd-availability-icon > i.hb-steam") ?
-      true : false
-
-    RumbleBundle::Product.new(product)
 
   end
 
