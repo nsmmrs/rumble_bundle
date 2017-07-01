@@ -1,7 +1,6 @@
 class RumbleBundle::Bundle
 
-  attr_accessor :name, :tiers, :charities, :total_msrp, :url
-  attr_reader :products
+  attr_accessor :name, :url, :tiers, :charities, :total_msrp
 
   @@all = []
 
@@ -14,6 +13,7 @@ class RumbleBundle::Bundle
   end
 
   def products
+    # Leverage Bundle#tiers to expose a flat array of a Bundle's Products.
     self.tiers.collect{|t| t.products}.flatten
   end
 

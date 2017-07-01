@@ -1,5 +1,6 @@
 class RumbleBundle::CLI
 
+  # Scrape site and allow user to begin browsing.
   def start
     puts ""
     puts "Fetching data from HumbleBundle.com..."
@@ -12,6 +13,7 @@ class RumbleBundle::CLI
   end
 
 
+
   def query
 
     bundles = RumbleBundle::Bundle.all
@@ -21,22 +23,28 @@ class RumbleBundle::CLI
     puts "Enter 'quit' to leave the program."
     puts ""
 
+    # List Bundles in numbered order
     bundles.each.with_index(1) do |bundle, i|
       puts "[#{i}] #{bundle.name}"
     end
 
+    # Get user input
     puts ""
     print " "
     input = gets.strip.downcase
     puts ""
 
+    # If input is a valid number, display the corresponding Bundle
     if input.to_i.between?(1, bundles.length)
       display_bundle(bundles[input.to_i - 1])
+
+    # If input is an invalid number, restart #query
     elsif input.to_i < 0 || input.to_i > bundles.length
       puts ""
       puts "Sorry! Please enter a valid number or command."
       query
 
+    # Check for 'help' or 'quit' commands, else pass input to #filter
     else
       case input
       when 'help'
@@ -50,9 +58,14 @@ class RumbleBundle::CLI
 
   end
 
+
+
   def filter(input)
+    # Compare input to recognized tags
     filters = %w[drm-free steam-key windows mac linux android]
     valid = filters & input.split
+
+    # If input is valid, collect an array of all Products, remove any that do not match search tags, then display results in a formatted list
     if valid.any?
       filtered = RumbleBundle::Product.all.collect{|p| p}
       valid.each do |filter|
@@ -100,6 +113,9 @@ class RumbleBundle::CLI
 
   end
 
+
+
+  # Display formatted information for given Bundle
   def display_bundle(bundle)
     puts "---------------------------------------------------------------"
     puts "#{bundle.name} (#{bundle.url})"
@@ -132,6 +148,7 @@ class RumbleBundle::CLI
     puts ""
   end
 
+  # Display help
   def help
     puts <<~HEREDOC
     ---------------------------------------------------------------
@@ -154,6 +171,7 @@ class RumbleBundle::CLI
     query
   end
 
+  # Quit
   def quit
     exit
   end
