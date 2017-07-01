@@ -27,3 +27,9 @@ Then follow the on-screen prompts. :)
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/repromancer/rumble_bundle.
+
+## License
+
+This is free and unencumbered software released into the public domain.
+
+For more information, please refer to the included UNLICENSE.md or <https://unlicense.org>
