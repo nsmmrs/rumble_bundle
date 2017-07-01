@@ -108,12 +108,8 @@ class RumbleBundle::CLI
     puts "  or a Charity of Your Choice"
     puts "", ""
     bundle.tiers.each do |tier|
-      puts tier, ""
-      bundle.products.each do |product|
-        if product.tier == tier
-          display_product(product)
-        end
-      end
+      puts tier.description, ""
+      tier.products.each{|p| display_product(p)}
       puts ""
     end
     puts "---------------------------------------------------------------"
