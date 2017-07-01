@@ -75,7 +75,7 @@ class RumbleBundle::CLI
           puts ""
           bundle.tiers.each do |tier|
             if filtered.detect{|p| p.tier == tier}
-              puts tier.description, ""
+              puts "  #{tier.description}", ""
               filtered.each{|p| display_product(p) if p.tier == tier}
               puts ""
             end
@@ -105,15 +105,15 @@ class RumbleBundle::CLI
     puts "#{bundle.name} (#{bundle.url})"
     puts "#{bundle.total_msrp}!"
     puts ""
-    puts "Supports:"
+    puts "  Supports:"
     bundle.charities.each do |c|
-      print "  #{c}"
+      print "    #{c}"
       puts ","
     end
-    puts "  or a Charity of Your Choice"
+    puts "    or a Charity of Your Choice"
     puts "", ""
     bundle.tiers.each do |tier|
-      puts tier.description, ""
+      puts "  #{tier.description}", ""
       tier.products.each{|p| display_product(p)}
       puts ""
     end
@@ -123,12 +123,12 @@ class RumbleBundle::CLI
   end
 
   def display_product(product)
-    print "  #{product.name}"
+    print "    #{product.name}"
     print " (#{product.platforms.join(", ")})" if product.platforms.any?
     print " (DRM-Free!)" if product.drm_free
     print " (w/Steam Key!)" if product.steam_key
     puts ""
-    puts "    #{product.subtitle}" if product.subtitle
+    puts "      #{product.subtitle}" if product.subtitle
     puts ""
   end
 
