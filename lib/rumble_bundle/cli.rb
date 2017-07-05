@@ -2,9 +2,9 @@ class RumbleBundle::CLI
 
   # Scrape site and allow user to begin browsing.
   def start
-    puts ""
+    puts
     puts "Fetching data from HumbleBundle.com..."
-    puts ""
+    puts
 
     RumbleBundle::Scraper.new.crawl_site
 
@@ -18,10 +18,10 @@ class RumbleBundle::CLI
 
     bundles = RumbleBundle::Bundle.all
 
-    puts ""
+    puts
     puts "Enter a bundle's number to learn more, or enter 'help' for more commands."
     puts "Enter 'quit' to leave the program."
-    puts ""
+    puts
 
     # List Bundles in numbered order
     bundles.each.with_index(1) do |bundle, i|
@@ -29,10 +29,10 @@ class RumbleBundle::CLI
     end
 
     # Get user input
-    puts ""
+    puts
     print " "
     input = gets.strip.downcase
-    puts ""
+    puts
 
     # If input is a valid number, display the corresponding Bundle
     if input.to_i.between?(1, bundles.length)
@@ -40,7 +40,7 @@ class RumbleBundle::CLI
 
     # If input is an invalid number, restart #query
     elsif input.to_i < 0 || input.to_i > bundles.length
-      puts ""
+      puts
       puts "Sorry! Please enter a valid number or command."
       query
 
@@ -80,30 +80,31 @@ class RumbleBundle::CLI
       end
 
       if filtered.any?
-        puts ""
+        puts
         puts "Results for: #{valid}"
         puts "---------------------------------------------------------------"
         filtered.collect{|p| p.bundle }.uniq.each do |bundle|
           puts "#{bundle.name} (#{bundle.url})"
-          puts ""
+          puts
           bundle.tiers.each do |tier|
             if filtered.detect{|p| p.tier == tier}
-              puts "  #{tier.description}", ""
+              puts "  #{tier.description}"
+              puts
               filtered.each{|p| display_product(p) if p.tier == tier}
-              puts ""
+              puts
             end
           end
         end
         puts "---------------------------------------------------------------"
       else
-        puts ""
+        puts
         puts "Sorry! No results for: #{valid}"
         puts "---------------------------------------------------------------"
         puts "---------------------------------------------------------------"
       end
 
     else
-      puts ""
+      puts
       puts "Sorry! Please enter a valid number or command."
       query
 
@@ -119,19 +120,17 @@ class RumbleBundle::CLI
   def display_bundle(bundle)
     puts "---------------------------------------------------------------"
     puts "#{bundle.name} (#{bundle.url})"
+    puts
     puts "#{bundle.total_msrp}!"
-    puts ""
-    puts "  Supports:"
-    bundle.charities.each do |c|
-      print "    #{c}"
-      puts ","
-    end
-    puts "    or a Charity of Your Choice"
-    puts "", ""
+    puts
+    puts bundle.charities
+    puts
+    puts
     bundle.tiers.each do |tier|
-      puts "  #{tier.description}", ""
+      puts "  #{tier.description}"
+      puts
       tier.products.each{|p| display_product(p)}
-      puts ""
+      puts
     end
     puts "---------------------------------------------------------------"
 
@@ -143,9 +142,9 @@ class RumbleBundle::CLI
     print " (#{product.platforms.join(", ")})" if product.platforms.any?
     print " (DRM-Free!)" if product.drm_free
     print " (w/Steam Key!)" if product.steam_key
-    puts ""
+    puts
     puts "      #{product.subtitle}" if product.subtitle
-    puts ""
+    puts
   end
 
   # Display help
