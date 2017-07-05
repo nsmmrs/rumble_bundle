@@ -4,7 +4,7 @@ class RumbleBundle::Scraper
     # Set URLs used as starting points for scraping
     @base_url = 'https://www.humblebundle.com'
     @main_pages = [
-      'https://www.humblebundle.com/',
+      'https://www.humblebundle.com/software-bundle/',
       'https://www.humblebundle.com/books/',
       'https://www.humblebundle.com/mobile/']
   end
@@ -44,7 +44,7 @@ class RumbleBundle::Scraper
 
       bundle.name = html.css("title").text.chomp("(pay what you want and help charity)").strip
 
-      bundle.charities = html.css(".charity-image-wrapper img").collect{|img| img.attr("alt")}
+      bundle.charities = html.css(".hb-giftbox ~ div > .hr-tagline-popup").text.strip
 
       bundle.total_msrp = html.css('.hr-tagline-text').detect{|e| e.text.include?("worth")}.text.strip
 
@@ -77,7 +77,8 @@ class RumbleBundle::Scraper
 
       end
 
-    end
+    end unless html.at('button:contains("This Bundle is Over!")')
+
   end
 
 
